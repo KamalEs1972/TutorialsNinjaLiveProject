@@ -44,8 +44,20 @@ public class RegisterPage {
 	@FindBy(xpath="//*[@id=\"content\"]/h1")
 	public static WebElement  accountCreated;
 	
+	@FindBy(xpath="//*[@id=\"account-register\"]/ul/li[3]/a")
+	public static WebElement  registerButton;
 	
-	public static void enterAllDetails(DataTable dataTable) {
+	@FindBy(css="input[id=input-firstname]+div")
+	public static WebElement  firstNameWarning;
+	
+	@FindBy(css="[value='1'][name='newsletter']")
+	public static WebElement  yesToSubscribeRadioButton;
+	
+	@FindBy(css=".alert.alert-danger.alert-dismissible")
+	public static WebElement  mainWarning;
+	
+	
+	public static void enterAllDetails(DataTable dataTable , String detailsType) {
 		
 		Map<String,String> map=	dataTable.asMap(String.class, String.class);
 		
@@ -53,17 +65,31 @@ public class RegisterPage {
 		
 		Elements.TypeText(RegisterPage.lastName, map.get("Lastname"));
 		
-		Elements.TypeText(RegisterPage.email, map.get("Email"));
+	//	Elements.TypeText(RegisterPage.email, map.get("Email"));
 		
 		Elements.TypeText(RegisterPage.telephone, map.get("Telephone"));
 		
-		Elements.TypeText(RegisterPage.password,System.currentTimeMillis()+ map.get("Password"));
-		
+	//	Elements.TypeText(RegisterPage.password,System.currentTimeMillis()+ map.get("Password"));
+		Elements.TypeText(RegisterPage.password,map.get("Password"));
 		Elements.TypeText(RegisterPage.passwordConfirm, map.get("Password"));
+		if (detailsType.equalsIgnoreCase("duplicate"))
+			
+			Elements.TypeText(RegisterPage.email, map.get("Email"));
+		else 
+			Elements.TypeText(RegisterPage.email,System.currentTimeMillis()+ map.get("Email"));
+		
+		
+		
+	}
+	
+
+		
+		
 		
 		
 	}
 	
 	
+	
 
-}
+
